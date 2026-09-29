@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="pedido.css">
+</head>
+<body>
+      <header id="inicio">
+        <h1>Gestión de Sorrentinos</h1>
+    </header>
+
+
+    <section id="registrar-pedido">
+
+        <h2>Registrar nuevo pedido</h2>
+
+        <form action="#" method="post">
+
+            <div>
+                <label for="cliente">Cliente:</label>
+
+                <input
+                    type="text"
+                    id="cliente"
+                    name="cliente"
+                    placeholder="Nombre del cliente"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="fecha-entrega">Fecha de entrega:</label>
+
+                <input
+                    type="date"
+                    id="fecha-entrega"
+                    name="fecha_entrega"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="sabor">Sabor de los sorrentinos:</label>
+
+                <select id="sabor" name="sabor" required>
+                    <option value="">Seleccione un sabor</option>
+                    <option value="jamon-queso">Jamón y queso</option>
+                    <option value="calabaza">Calabaza y queso</option>
+                    <option value="pollo">Pollo</option>
+                    <option value="verdura">Verdura y ricota</option>
+                    <option value="cuatro-quesos">Cuatro quesos</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="cantidad">Cantidad de sorrentinos:</label>
+
+                <input
+                    type="number"
+                    id="cantidad"
+                    name="cantidad"
+                    min="1"
+                    placeholder = "Cantidad de sorrentinos"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="observaciones">Observaciones:</label>
+
+                <textarea
+                    id="observaciones"
+                    name="observaciones"
+                    rows="4"
+                    placeholder="Aclaraciones sobre el pedido"
+                ></textarea>
+            </div>
+
+            <button type="submit">
+                Guardar pedido
+            </button>
+
+            <button type="reset">
+                Limpiar formulario
+            </button>
+
+        </form>
+
+        <a href="index.html">Volver al inicio</a>
+
+    </section>
+
+</body>
+</html>
