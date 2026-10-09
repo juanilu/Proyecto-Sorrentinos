@@ -1,0 +1,266 @@
+/* ==========================================
+   ESTILOS GENERALES Y LAYOUT DE TANDAS
+   ========================================== */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fcfbfa;
+}
+
+/* Barra Superior */
+.barra-superior {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 30px !important;
+    background: #fff !important;
+    border-bottom: 1px solid #d8cec2 !important;
+    box-sizing: border-box;
+}
+
+.marca {
+    margin: 0 !important;
+    font-size: 1.2em !important;
+    color: #2e7d32 !important;
+}
+
+/* Menú Desplegable de Usuario */
+.usuario-menu {
+    position: relative !important;
+    display: inline-block !important;
+    cursor: pointer !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    background: #f9f6f0 !important;
+    border: 1px solid #e2d3c1 !important;
+}
+
+.usuario-texto {
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+.usuario-dropdown {
+    display: none !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: calc(100% + 5px) !important;
+    background-color: #ffffff !important;
+    min-width: 150px !important;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15) !important;
+    border-radius: 6px !important;
+    border: 1px solid #d8cec2 !important;
+    z-index: 999 !important;
+    overflow: hidden !important;
+}
+
+.usuario-menu:hover .usuario-dropdown {
+    display: block !important;
+}
+
+.usuario-dropdown a {
+    color: #c62828 !important;
+    padding: 10px 14px !important;
+    text-decoration: none !important;
+    display: block !important;
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+}
+
+.usuario-dropdown a:hover {
+    background-color: #ffebee !important;
+}
+
+/* Contenedor Principal */
+.contenido-tandas {
+    padding: 30px 40px !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+}
+
+/* Botón Volver */
+.contenedor-volver {
+    margin-bottom: 15px !important;
+}
+
+.btn-volver {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border: 1px solid #d8cec2 !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    color: #333 !important;
+    background: #fff !important;
+    font-size: 1.2em !important;
+}
+
+.btn-volver:hover {
+    background-color: #f4efe6 !important;
+}
+
+/* Cabecera de la Seccion */
+.cabecera-seccion {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 25px !important;
+}
+
+.cabecera-seccion h2 {
+    color: #2e7d32 !important;
+    margin: 0 !important;
+    font-size: 1.8em !important;
+}
+
+.btn-nueva-tanda {
+    background-color: #2e7d32 !important;
+    color: white !important;
+    padding: 10px 18px !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+}
+
+.btn-nueva-tanda:hover {
+    background-color: #235d26 !important;
+}
+
+/* Tarjeta de Próxima Tanda */
+.tarjeta-resumen {
+    background: #fff !important;
+    border: 1px solid #d8cec2 !important;
+    border-radius: 10px !important;
+    padding: 18px 22px !important;
+    width: 280px !important;
+    max-width: 100% !important;
+    margin-bottom: 30px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    box-sizing: border-box;
+}
+
+.icono-calendario {
+    font-size: 1.8em !important;
+    background: #f4efe6 !important;
+    padding: 10px 12px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.etiqueta-proxima {
+    font-size: 0.7em !important;
+    font-weight: bold !important;
+    color: #718096 !important;
+    letter-spacing: 0.5px !important;
+    display: block !important;
+    margin-bottom: 3px !important;
+}
+
+.fecha-proxima {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    color: #2e7d32 !important;
+    display: block !important;
+}
+
+/* Tabla de Datos */
+.tabla-contenedor {
+    background: #fff !important;
+    border: 1px solid #d8cec2 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03) !important;
+}
+
+.tabla-datos {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.tabla-datos thead tr {
+    background-color: #f4efe6 !important;
+    text-align: left !important;
+    border-bottom: 2px solid #d8cec2 !important;
+}
+
+.tabla-datos th {
+    padding: 14px 18px !important;
+    color: #333 !important;
+    font-size: 0.95em !important;
+}
+
+.tabla-datos tbody tr {
+    border-bottom: 1px solid #eee !important;
+}
+
+.col-nombre {
+    padding: 14px 18px !important;
+    color: #333 !important;
+}
+
+.col-fecha {
+    padding: 14px 18px !important;
+    color: #555 !important;
+}
+
+.col-estado {
+    padding: 14px 18px !important;
+}
+
+.col-accion {
+    padding: 14px 18px !important;
+}
+
+/* Insignias de Estado */
+.badge-estado {
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    font-size: 0.85em !important;
+    font-weight: bold !important;
+    display: inline-block !important;
+}
+
+.badge-estado.finalizada {
+    color: #c62828 !important;
+    background: #ffebee !important;
+}
+
+.badge-estado.pendiente {
+    color: #2e7d32 !important;
+    background: #e8f5e9 !important;
+}
+
+/* Botón de Activar / Finalizar */
+.btn-accion-estado {
+    display: inline-block !important;
+    padding: 6px 12px !important;
+    border-radius: 4px !important;
+    font-size: 0.85em !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    background-color: #f4efe6 !important;
+    color: #333 !important;
+    border: 1px solid #d8cec2 !important;
+    transition: background 0.2s, color 0.2s !important;
+}
+
+.btn-accion-estado:hover {
+    background-color: #2e7d32 !important;
+    color: white !important;
+    border-color: #2e7d32 !important;
+}
+
+.tabla-vacia {
+    padding: 30px !important;
+    text-align: center !important;
+    color: #777 !important;
+}
