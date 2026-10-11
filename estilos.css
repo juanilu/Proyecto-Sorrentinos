@@ -1,3 +1,7 @@
+/* ==========================================
+   ESTILOS GENERALES Y LAYOUT PRINCIPAL
+   ========================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,79 +10,200 @@
 }
 
 body {
-  background-color: #f5f6f8;
+  background-color: #fcfbfa;
   color: #333;
 }
 
-
+/* Barra Superior */
 .barra-superior {
   background-color: #ffffff;
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #d8cec2;
 }
 
 .marca {
   color: #2e7d32;
-  font-size: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
+/* Menú Desplegable de Usuario (Corregido para no cerrarse al pasar el mouse) */
+.usuario-menu {
+    position: relative !important;
+    display: inline-block !important;
+    cursor: pointer !important;
+    padding: 8px 14px !important;
+    border-radius: 6px !important;
+    background: #f9f6f0 !important;
+    border: 1px solid #e2d3c1 !important;
+}
 
+.usuario-texto {
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+.usuario-dropdown {
+    display: none !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 100% !important;
+    margin-top: 2px !important;
+    background-color: #ffffff !important;
+    min-width: 160px !important;
+    box-shadow: 0px 6px 16px rgba(0,0,0,0.15) !important;
+    border-radius: 6px !important;
+    border: 1px solid #d8cec2 !important;
+    z-index: 9999 !important;
+    overflow: hidden !important;
+}
+
+.usuario-menu:hover .usuario-dropdown {
+    display: block !important;
+}
+
+.usuario-dropdown a {
+    background-color: #ffffff !important;
+    color: #c62828 !important;
+    padding: 12px 16px !important;
+    text-decoration: none !important;
+    display: block !important;
+    font-size: 0.9em !important;
+    font-weight: bold !important;
+}
+
+.usuario-dropdown a:hover {
+    background-color: #ffebee !important;
+}
+
+/* Contenedor Principal */
 .contenido {
-  padding: 30px;
-  max-width: 900px;
+  padding: 35px 40px;
+  max-width: 1050px;
   margin: 0 auto;
 }
 
 .saludo {
-  margin-bottom: 20px;
-  font-size: 22px;
+  margin-bottom: 25px;
+  font-size: 2em;
+  color: #111;
 }
 
+/* Tarjeta de Resumen Operativo (Hacia la derecha) */
 .tarjeta-resumen {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border: 1px solid #d8cec2;
+  border-radius: 10px;
+  padding: 22px 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.resumen-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .titulo-resumen {
   color: #2e7d32;
-  font-size: 14px;
-  margin-bottom: 15px;
+  font-size: 0.85em;
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
-.lista-resumen {
-  list-style: none;
+.resumen-elementos {
   display: flex;
-  gap: 60px;
+  gap: 60px; /* Distribuye los elementos hacia la derecha */
+}
+
+.item-resumen {
+  display: flex;
+  align-items: center; /* Textos al lado del icono */
+  gap: 15px;
+}
+
+.icono-caja {
+  font-size: 1.5em;
+  background: #f4efe6;
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .etiqueta-resumen {
-  font-size: 14px;
-  color: #555;
+  font-size: 0.8em;
+  color: #718096;
+  margin-bottom: 2px;
 }
 
+.valor-resumen {
+  font-size: 1.15em;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+/* Grilla de Menú (2 columnas) */
 .grilla-menu {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Tarjetas interactivas sin estilo de link tradicional */
 .tarjeta-menu {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
+  border: 1px solid #d8cec2;
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.tarjeta-menu:hover {
+  border-color: #2e7d32;
+  background-color: #fbfbf9;
+  transform: translateY(-2px);
+}
+
+.tarjeta-contenido-izq {
+  display: flex;
+  align-items: center; /* Textos al lado del icono del menú */
+  gap: 18px;
+}
+
+.icono-menu {
+  font-size: 1.8em;
+  background: #f4efe6;
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e7d32;
+  min-width: 50px;
+  min-height: 50px;
 }
 
 .titulo-menu {
-  color: #2e7d32;
-  font-size: 15px;
-  margin-bottom: 10px;
+  color: #111 !important;
+  font-size: 0.95em;
+  font-weight: bold;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+  text-decoration: none !important;
 }
 
 .opciones-menu {
@@ -86,15 +211,32 @@ body {
 }
 
 .opciones-menu li {
-  margin-bottom: 5px;
+  font-size: 0.85em;
+  color: #555 !important;
+  margin-bottom: 2px;
+  text-decoration: none !important;
 }
 
-.opciones-menu a {
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
+/* Indicador visual de interactividad sutil en lugar de links subrayados */
+.flecha-indicadora {
+  font-size: 1.5em;
+  color: #d8cec2;
+  font-weight: bold;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.opciones-menu a:hover {
+.tarjeta-menu:hover .flecha-indicadora {
   color: #2e7d32;
+  transform: translateX(3px); /* Pequeño movimiento al pasar el cursor */
+}
+
+/* Responsive para pantallas chicas */
+@media (max-width: 768px) {
+  .grilla-menu {
+    grid-template-columns: 1fr;
+  }
+  .resumen-elementos {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
