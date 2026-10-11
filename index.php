@@ -119,7 +119,7 @@ $pedidos_activos = 24;
       </a>
 
       <!-- Tarjeta 4: Registrar Pedido -->
-      <a href="pedido.html" class="tarjeta-menu">
+      <a href="pedidos.php" class="tarjeta-menu">
         <div class="tarjeta-contenido-izq">
           <div class="icono-menu">📋</div>
           <div class="tarjeta-textos">
