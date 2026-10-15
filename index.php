@@ -61,13 +61,6 @@ $pedidos_activos = 24;
             <p class="valor-resumen"><?php echo $proxima_tanda; ?></p>
           </div>
         </div>
-        <div class="item-resumen">
-          <div class="icono-caja">🛒</div>
-          <div>
-            <p class="etiqueta-resumen">Pedidos Activos:</p>
-            <p class="valor-resumen"><?php echo $pedidos_activos; ?></p>
-          </div>
-        </div>
       </div>
     </section>
 
