@@ -1,14 +1,17 @@
 <?php
-// Incluir la conexión centralizada
 include 'conexion.php';
 
-// Obtener la lista de clientes registrados para el buscador
+// Obtener la lista de clientes
 $sql_clientes = "SELECT id_cliente, nombre, telefono FROM cliente ORDER BY nombre ASC";
 $resultado_clientes = $conexion->query($sql_clientes);
 
-// Obtener las tandas de producción activas (pendientes) para el selector
-$sql_tandas = "SELECT * FROM produccion WHERE finalizada = 0 ORDER BY fecha ASC";
+// Obtener las tandas activas
+$sql_tandas = "SELECT id_prod, nombre, fecha FROM produccion WHERE finalizada = 0 ORDER BY fecha ASC";
 $resultado_tandas = $conexion->query($sql_tandas);
+
+// Obtener los sabores del catálogo
+$sql_sabores = "SELECT id_sabor, nombre, precio FROM sabor ORDER BY nombre ASC";
+$resultado_sabores = $conexion->query($sql_sabores);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +29,6 @@ $resultado_tandas = $conexion->query($sql_tandas);
     <header class="barra-superior">
         <h1 class="marca">🥟 GESTIÓN DE SORRENTINOS</h1>
         
-        <!-- Menú de Usuario con Desplegable -->
         <div class="usuario-menu">
             <span class="usuario-texto">👤 (Admin) ▾</span>
             <div class="usuario-dropdown">
@@ -37,174 +39,153 @@ $resultado_tandas = $conexion->query($sql_tandas);
 
     <main class="contenido-pedido">
 
-        <!-- Botón de Volver -->
         <div class="contenedor-volver">
             <a href="index.php" class="btn-volver">←</a>
         </div>
 
-        <!-- Título Principal -->
         <div class="cabecera-seccion">
             <h2>Registrar Pedido</h2>
         </div>
 
-        <!-- Layout de Dos Columnas -->
-        <div class="grid-registro-pedido">
+        <!-- Formulario apuntando correctamente a guardar_pedido.php -->
+        <form action="guardar_pedido.php" method="POST" id="formPedido">
+            <div class="grid-registro-pedido">
 
-            <!-- Columna Izquierda -->
-            <div class="columna-izquierda">
+                <!-- Columna Izquierda -->
+                <div class="columna-izquierda">
 
-                <!-- 1. Módulo: Buscar Cliente -->
-                <section class="tarjeta-modulo">
-                    <div class="tarjeta-modulo-header">
-                        <span class="icono-modulo">👤</span>
-                        <h3>SELECCIONAR CLIENTE</h3>
-                    </div>
-                    <div class="grupo-input" style="position: relative;">
-                        <label for="buscadorCliente">Buscar cliente registrado <span class="obligatorio">*</span></label>
-                        <div class="buscador-input-contenedor">
-                            <span class="icono-lupa">🔍</span>
-                            <input type="text" id="buscadorCliente" placeholder="Escribí para buscar cliente..." class="input-estandar" autocomplete="off" onkeyup="filtrarClientes()">
+                    <!-- 1. Módulo: Buscar Cliente -->
+                    <section class="tarjeta-modulo">
+                        <div class="tarjeta-modulo-header">
+                            <span class="icono-modulo">👤</span>
+                            <h3>SELECCIONAR CLIENTE</h3>
                         </div>
-                        <input type="hidden" id="idClienteSeleccionado" name="id_cliente">
+                        <div class="grupo-input">
+                            <label for="buscadorCliente">Buscar cliente registrado <span class="obligatorio">*</span></label>
+                            <div class="buscador-input-contenedor">
+                                <span class="icono-lupa">🔍</span>
+                                <input type="text" id="buscadorCliente" placeholder="Escribí para buscar cliente..." class="input-estandar" autocomplete="off" onkeyup="filtrarClientes()">
+                            </div>
+                            <input type="hidden" id="idClienteSeleccionado" name="id_cliente" required>
+                            
+                            <div id="listaClientesDropdown" class="dropdown-clientes-resultados" style="display: none;">
+                                <?php if ($resultado_clientes &&$resultado_clientes->num_rows > 0): ?>
+                                    <?php while($cli =$resultado_clientes->fetch_assoc()): ?>
+                                        <div class="item-cliente-opcion" onclick="seleccionarCliente('<?php echo $cli['id_cliente']; ?>', '<?php echo addslashes($cli['nombre']); ?>')">
+                                            <strong><?php echo htmlspecialchars($cli['nombre']); ?></strong> 
+                                            <span class="text-muted">(Tel: <?php echo htmlspecialchars($cli['telefono']); ?>)</span>
+                                        </div>
+                                    <?php endwhile; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 2. Módulo: Seleccionar Tanda Activa -->
+                    <section class="tarjeta-modulo">
+                        <div class="tarjeta-modulo-header">
+                            <span class="icono-modulo">📅</span>
+                            <h3>ASIGNAR A TANDA DE PRODUCCIÓN</h3>
+                        </div>
+                        <div class="grupo-input">
+                            <label for="selectTanda">Tanda activa <span class="obligatorio">*</span></label>
+                            <select id="selectTanda" name="id_prod" class="input-estandar" required>
+                                <option value="">Seleccioná una tanda de producción...</option>
+                                <?php if ($resultado_tandas &&$resultado_tandas->num_rows > 0): ?>
+                                    <?php while($tanda =$resultado_tandas->fetch_assoc()): ?>
+                                        <option value="<?php echo $tanda['id_prod']; ?>">
+                                            <?php echo htmlspecialchars($tanda['nombre']); ?> (<?php echo date('d/m/Y', strtotime($tanda['fecha'])); ?>)
+                                        </option>
+                                    <?php endwhile; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </section>
+
+                    <!-- 3. Módulo: Sabores y Cantidades -->
+                    <section class="tarjeta-modulo">
+                        <div class="tarjeta-modulo-header">
+                            <span class="icono-modulo">📦</span>
+                            <h3>SABORES Y CANTIDADES</h3>
+                        </div>
                         
-                        <!-- Lista desplegable de resultados de clientes -->
-                        <div id="listaClientesDropdown" class="dropdown-clientes-resultados" style="display: none;">
-                            <?php if ($resultado_clientes &&$resultado_clientes->num_rows > 0): ?>
-                                <?php while($cli =$resultado_clientes->fetch_assoc()): ?>
-                                    <div class="item-cliente-opcion" onclick="seleccionarCliente('<?php echo $cli['id_cliente']; ?>', '<?php echo addslashes($cli['nombre']); ?>')">
-                                        <strong><?php echo htmlspecialchars($cli['nombre']); ?></strong> 
-                                        <span class="text-muted">(Tel: <?php echo htmlspecialchars($cli['telefono']); ?>)</span>
-                                    </div>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <div class="item-cliente-opcion">No hay clientes registrados</div>
-                            <?php endif; ?>
+                        <table class="tabla-sabores" id="tablaSabores">
+                            <thead>
+                                <tr>
+                                    <th style="width: 45%;">SABOR</th>
+                                    <th class="text-center" style="width: 25%;">CANT. (DOCENAS)</th>
+                                    <th class="text-right" style="width: 30%;">SUBTOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($resultado_sabores &&$resultado_sabores->num_rows > 0): ?>
+                                    <?php while($sab =$resultado_sabores->fetch_assoc()): ?>
+                                        <tr data-sabor="<?php echo htmlspecialchars($sab['nombre']); ?>" data-precio="<?php echo $sab['precio']; ?>">
+                                            <td class="col-sabor-nombre">
+                                                <strong><?php echo htmlspecialchars($sab['nombre']); ?></strong>
+                                                <span style="display:block; font-size:0.8em; color:#777;">$<?php echo number_format($sab['precio'], 2, ',', '.'); ?> c/doc</span>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="number" min="0" value="0" name="sabores[<?php echo $sab['id_sabor']; ?>]" class="input-cantidad" onchange="calcularTotales()" onkeyup="calcularTotales()">
+                                            </td>
+                                            <td class="text-right subtotal-item">$ 0,00</td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="3" class="text-center" style="color: #777; padding: 20px;">No hay sabores cargados en el catálogo.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <!-- Columna Derecha (Resumen y Guardar) -->
+                <div class="columna-derecha">
+
+                    <section class="tarjeta-resumen-fija">
+                        <div class="tarjeta-modulo-header">
+                            <span class="icono-modulo">📋</span>
+                            <h3>RESUMEN DEL PEDIDO</h3>
                         </div>
-                    </div>
-                </section>
 
-                <!-- 2. Módulo: Seleccionar Tanda Activa -->
-                <section class="tarjeta-modulo">
-                    <div class="tarjeta-modulo-header">
-                        <span class="icono-modulo">📅</span>
-                        <h3>ASIGNAR A TANDA DE PRODUCCIÓN</h3>
-                    </div>
-                    <div class="grupo-input">
-                        <label for="selectTanda">Tanda activa <span class="obligatorio">*</span></label>
-                        <select id="selectTanda" class="input-estandar">
-                            <option value="">Seleccioná una tanda de producción...</option>
-                            <?php if ($resultado_tandas &&$resultado_tandas->num_rows > 0): ?>
-                                <?php while($tanda =$resultado_tandas->fetch_assoc()): ?>
-                                    <?php 
-                                        $id_tanda = isset($tanda['id_produccion']) ?$tanda['id_produccion'] : (isset($tanda['id']) ?$tanda['id'] : 0);
-                                    ?>
-                                    <option value="<?php echo $id_tanda; ?>">
-                                        Tanda del <?php echo date('d/m/Y', strtotime($tanda['fecha'])); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            <?php else: ?>
-                                <option value="" disabled>No hay tandas activas creadas</option>
-                            <?php endif; ?>
-                        </select>
-                    </div>
-                </section>
-
-                <!-- 3. Módulo: Sabores y Cantidades -->
-                <section class="tarjeta-modulo">
-                    <div class="tarjeta-modulo-header">
-                        <span class="icono-modulo">📦</span>
-                        <h3>SABORES Y CANTIDADES</h3>
-                    </div>
-                    
-                    <table class="tabla-sabores" id="tablaSabores">
-                        <thead>
-                            <tr>
-                                <th style="width: 45%;">SABOR</th>
-                                <th class="text-center" style="width: 25%;">CANT. (DOCENAS)</th>
-                                <th class="text-right" style="width: 30%;">SUBTOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Sabor 1 -->
-                            <tr data-sabor="Jamón y Queso" data-precio="3500">
-                                <td class="col-sabor-nombre">Jamón y Queso</td>
-                                <td class="text-center">
-                                    <input type="number" min="0" value="0" class="input-cantidad" onchange="calcularTotales()" onkeyup="calcularTotales()">
-                                </td>
-                                <td class="text-right subtotal-item">$ 0,00</td>
-                            </tr>
-                            <!-- Sabor 2 -->
-                            <tr data-sabor="Calabaza" data-precio="3500">
-                                <td class="col-sabor-nombre">Calabaza</td>
-                                <td class="text-center">
-                                    <input type="number" min="0" value="0" class="input-cantidad" onchange="calcularTotales()" onkeyup="calcularTotales()">
-                                </td>
-                                <td class="text-right subtotal-item">$ 0,00</td>
-                            </tr>
-                            <!-- Sabor 3 -->
-                            <tr data-sabor="Caprese" data-precio="3800">
-                                <td class="col-sabor-nombre">Caprese</td>
-                                <td class="text-center">
-                                    <input type="number" min="0" value="0" class="input-cantidad" onchange="calcularTotales()" onkeyup="calcularTotales()">
-                                </td>
-                                <td class="text-right subtotal-item">$ 0,00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-            </div>
-
-            <!-- Columna Derecha (Resumen y Guardar) -->
-            <div class="columna-derecha">
-
-                <!-- Tarjeta Resumen del Pedido con Desglose -->
-                <section class="tarjeta-modulo tarjeta-resumen-fija">
-                    <div class="tarjeta-modulo-header">
-                        <span class="icono-modulo">📋</span>
-                        <h3>RESUMEN DEL PEDIDO</h3>
-                    </div>
-
-                    <!-- Cliente seleccionado info -->
-                    <div id="resumenClienteInfo" class="resumen-cliente-caja">
-                        <span class="cliente-no-seleccionado">⚠️ Ningún cliente seleccionado</span>
-                    </div>
-
-                    <div class="resumen-linea">
-                        <span>Total de docenas</span>
-                        <span id="totalDocenas" class="valor-resumen-num">0</span>
-                    </div>
-
-                    <!-- Desglose por sabor -->
-                    <div class="resumen-desglose-seccion">
-                        <p class="titulo-desglose">Detalle por sabor:</p>
-                        <div id="contenedorDesgloseSabores" class="lista-desglose-sabores">
-                            <span class="texto-sin-sabores">Sin sabores seleccionados</span>
+                        <div id="resumenClienteInfo" class="resumen-cliente-caja">
+                            <span class="cliente-no-seleccionado">⚠️ Ningún cliente seleccionado</span>
                         </div>
+
+                        <div class="resumen-linea">
+                            <span>Total de docenas</span>
+                            <span id="totalDocenas" class="valor-resumen-num">0</span>
+                        </div>
+
+                        <div class="resumen-desglose-seccion">
+                            <p class="titulo-desglose">Detalle por sabor:</p>
+                            <div id="contenedorDesgloseSabores" class="lista-desglose-sabores">
+                                <span class="texto-sin-sabores">Sin sabores seleccionados</span>
+                            </div>
+                        </div>
+
+                        <hr class="divisor-resumen">
+                        
+                        <div class="resumen-linea total-final-linea">
+                            <span>Total</span>
+                            <span id="totalPrecio" class="valor-total-dinero">$ 0,00</span>
+                        </div>
+                    </section>
+
+                    <div class="contenedor-btn-guardar">
+                        <button type="submit" class="btn-guardar-pedido">
+                            💾 Guardar Pedido
+                        </button>
                     </div>
 
-                    <hr class="divisor-resumen">
-                    
-                    <div class="resumen-linea total-final-linea">
-                        <span>Total</span>
-                        <span id="totalPrecio" class="valor-total-dinero">$ 0,00</span>
-                    </div>
-                </section>
-
-                <!-- Botón Guardar Pedido -->
-                <div class="contenedor-btn-guardar">
-                    <button type="button" class="btn-guardar-pedido" onclick="guardarPedido()">
-                        💾 Guardar Pedido
-                    </button>
                 </div>
 
             </div>
-
-        </div>
+        </form>
 
     </main>
 
-    <!-- Script de lógica e interactividad -->
     <script>
         function filtrarClientes() {
             let filtro = document.getElementById('buscadorCliente').value.toLowerCase();
@@ -217,16 +198,9 @@ $resultado_tandas = $conexion->query($sql_tandas);
             }
 
             dropdown.style.display = 'block';
-            let hayCoincidencias = false;
-
             items.forEach(item => {
                 let texto = item.textContent.toLowerCase();
-                if (texto.includes(filtro)) {
-                    item.style.display = 'block';
-                    hayCoincidencias = true;
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = texto.includes(filtro) ? 'block' : 'none';
             });
         }
 
@@ -257,12 +231,10 @@ $resultado_tandas = $conexion->query($sql_tandas);
                 let nombreSabor = fila.getAttribute('data-sabor');
                 let precioUnitario = parseFloat(fila.getAttribute('data-precio')) || 0;
                 let inputCantidad = fila.querySelector('.input-cantidad');
+                if(!inputCantidad) return;
+                
                 let cantidad = parseInt(inputCantidad.value) || 0;
-
-                if (cantidad < 0) {
-                    cantidad = 0;
-                    inputCantidad.value = 0;
-                }
+                if (cantidad < 0) { cantidad = 0; inputCantidad.value = 0; }
 
                 let subtotal = cantidad * precioUnitario;
                 fila.querySelector('.subtotal-item').textContent = '$ ' + subtotal.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -279,50 +251,7 @@ $resultado_tandas = $conexion->query($sql_tandas);
             document.getElementById('totalPrecio').textContent = '$ ' + totalPrecio.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
             let contenedorDesglose = document.getElementById('contenedorDesgloseSabores');
-            if (htmlDesglose === '') {
-                contenedorDesglose.innerHTML = '<span class="texto-sin-sabores">Sin sabores seleccionados</span>';
-            } else {
-                contenedorDesglose.innerHTML = htmlDesglose;
-            }
-        }
-
-        function limpiarFormularioPedido() {
-            document.getElementById('buscadorCliente').value = '';
-            document.getElementById('idClienteSeleccionado').value = '';
-            
-            let cajaResumenCli = document.getElementById('resumenClienteInfo');
-            cajaResumenCli.innerHTML = '<span class="cliente-no-seleccionado">⚠️ Ningún cliente seleccionado</span>';
-            cajaResumenCli.style.color = '';
-
-            document.getElementById('selectTanda').selectedIndex = 0;
-
-            document.querySelectorAll('.input-cantidad').forEach(input => {
-                input.value = 0;
-            });
-
-            calcularTotales();
-        }
-
-        function guardarPedido() {
-            let idCliente = document.getElementById('idClienteSeleccionado').value;
-            let idTanda = document.getElementById('selectTanda').value;
-            let totalDocenas = parseInt(document.getElementById('totalDocenas').textContent);
-
-            if (!idCliente) {
-                alert('Por favor, seleccioná un cliente válido de la lista.');
-                return;
-            }
-            if (!idTanda) {
-                alert('Por favor, seleccioná una tanda de producción activa para este pedido.');
-                return;
-            }
-            if (totalDocenas <= 0) {
-                alert('El pedido debe contener al menos una docena de sorrentinos.');
-                return;
-            }
-
-            alert('¡Pedido registrado y asignado a la tanda correctamente!');
-            limpiarFormularioPedido();
+            contenedorDesglose.innerHTML = (htmlDesglose === '') ? '<span class="texto-sin-sabores">Sin sabores seleccionados</span>' : htmlDesglose;
         }
     </script>
 

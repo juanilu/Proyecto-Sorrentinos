@@ -3,9 +3,9 @@
    ========================================== */
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #fcfbfa;
+    margin: 0 !important;
+    font-family: Arial, sans-serif !important;
+    background-color: #fcfbfa !important;
 }
 
 /* Barra Superior */
@@ -16,7 +16,7 @@ body {
     padding: 12px 30px !important;
     background: #fff !important;
     border-bottom: 1px solid #d8cec2 !important;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 .marca {
@@ -45,7 +45,7 @@ body {
     display: none !important;
     position: absolute !important;
     right: 0 !important;
-    top: calc(100% + 5px) !important;
+    top: 100% !important;
     background-color: #ffffff !important;
     min-width: 150px !important;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.15) !important;
@@ -53,6 +53,7 @@ body {
     border: 1px solid #d8cec2 !important;
     z-index: 999 !important;
     overflow: hidden !important;
+    margin-top: 2px !important;
 }
 
 .usuario-menu:hover .usuario-dropdown {
@@ -77,7 +78,7 @@ body {
     padding: 30px 40px !important;
     max-width: 1000px !important;
     margin: 0 auto !important;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 /* Botón Volver */
@@ -124,6 +125,8 @@ body {
     border-radius: 6px !important;
     text-decoration: none !important;
     font-weight: bold !important;
+    border: none !important;
+    cursor: pointer !important;
 }
 
 .btn-nueva-tanda:hover {
@@ -143,17 +146,7 @@ body {
     display: flex !important;
     align-items: center !important;
     gap: 15px !important;
-    box-sizing: border-box;
-}
-
-.icono-calendario {
-    font-size: 1.8em !important;
-    background: #f4efe6 !important;
-    padding: 10px 12px !important;
-    border-radius: 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    box-sizing: border-box !important;
 }
 
 .etiqueta-proxima {
@@ -200,25 +193,19 @@ body {
 
 .tabla-datos tbody tr {
     border-bottom: 1px solid #eee !important;
+    transition: background-color 0.15s ease !important;
 }
 
-.col-nombre {
-    padding: 14px 18px !important;
-    color: #333 !important;
+.tabla-datos tbody tr:hover {
+    background-color: #fcf9f4 !important;
 }
 
-.col-fecha {
-    padding: 14px 18px !important;
-    color: #555 !important;
-}
-
-.col-estado {
+.col-nombre, .col-fecha, .col-estado, .col-accion {
     padding: 14px 18px !important;
 }
 
-.col-accion {
-    padding: 14px 18px !important;
-}
+.col-nombre { color: #333 !important; }
+.col-fecha { color: #555 !important; }
 
 /* Insignias de Estado */
 .badge-estado {
@@ -259,8 +246,172 @@ body {
     border-color: #2e7d32 !important;
 }
 
+/* Botones de Iconos en Tabla (Editar y Eliminar) */
+.contenedor-acciones {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+.btn-icono-editar, .btn-icono-eliminar {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.1em !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    transition: opacity 0.2s !important;
+}
+
+.btn-icono-editar {
+    background-color: #f9f6f0 !important;
+    border: 1px solid #d8cec2 !important;
+}
+
+.btn-icono-editar:hover {
+    background-color: #f4efe6 !important;
+}
+
+.btn-icono-eliminar {
+    background-color: #fff5f5 !important;
+    border: 1px solid #ffcdd2 !important;
+}
+
+.btn-icono-eliminar:hover {
+    background-color: #ffebee !important;
+}
+
 .tabla-vacia {
     padding: 30px !important;
     text-align: center !important;
     color: #777 !important;
+}
+
+/* ==========================================
+   ESTILOS DE LOS MODALES
+   ========================================== */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    display: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+}
+
+.modal-overlay.activo {
+    display: flex !important;
+}
+
+.modal-contenedor {
+    background: #fff !important;
+    border-radius: 10px !important;
+    width: 450px !important;
+    max-width: 90% !important;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
+    overflow: hidden !important;
+    border: 1px solid #d8cec2 !important;
+}
+
+.modal-header {
+    padding: 16px 20px !important;
+    background: #f9f6f0 !important;
+    border-bottom: 1px solid #d8cec2 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.modal-header h3 {
+    margin: 0 !important;
+    color: #2e7d32 !important;
+    font-size: 1.1em !important;
+}
+
+.modal-cerrar {
+    font-size: 1.4em !important;
+    color: #777 !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+}
+
+.modal-cerrar:hover {
+    color: #111 !important;
+}
+
+.modal-body {
+    padding: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+}
+
+.grupo-input-modal {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.grupo-input-modal label {
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    color: #333 !important;
+}
+
+.input-estandar-modal {
+    padding: 10px 12px !important;
+    border: 1px solid #d8cec2 !important;
+    border-radius: 6px !important;
+    font-size: 0.95em !important;
+    outline: none !important;
+}
+
+.input-estandar-modal:focus {
+    border-color: #2e7d32 !important;
+}
+
+.modal-footer {
+    padding: 14px 20px !important;
+    background: #fcfbfa !important;
+    border-top: 1px solid #d8cec2 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+}
+
+.btn-principal {
+    background-color: #2e7d32 !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
+.btn-principal:hover {
+    background-color: #235d26 !important;
+}
+
+.btn-secundario {
+    background-color: #e2d3c1 !important;
+    color: #333 !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
+.btn-secundario:hover {
+    background-color: #d8cec2 !important;
 }

@@ -97,6 +97,7 @@ $pedidos_activos = 24;
             <h3 class="titulo-menu">2. CLIENTES</h3>
             <ul class="opciones-menu">
               <li>• Listado de clientes</li>
+              <li>• Agregar nuevo cliente</li>
             </ul>
           </div>
         </div>
@@ -104,7 +105,7 @@ $pedidos_activos = 24;
       </a>
 
       <!-- Tarjeta 3: Sabores -->
-      <a href="sabores.html" class="tarjeta-menu">
+      <a href="sabores.php" class="tarjeta-menu">
         <div class="tarjeta-contenido-izq">
           <div class="icono-menu">🌱</div>
           <div class="tarjeta-textos">
