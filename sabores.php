@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Validar que el usuario haya iniciado sesión; si no, redirigir al login
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'conexion.php';
 
 // PROCESAR ELIMINACIÓN DE UN SABOR
@@ -22,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
             $nombre_seguro = $conexion->real_escape_string($nombre);
             $descripcion_segura = $conexion->real_escape_string($descripcion);
 
-            // Al ser id_sabor INT AUTO_INCREMENT, no necesitamos indicarlo en el INSERT
+            // Al ser id_sabor INT AUTO_INCREMENT, no necesitamos indicarlo en el INSERT[cite: 9]
             $conexion->query("INSERT INTO sabor (nombre, descripcion, precio) VALUES ('$nombre_seguro', '$descripcion_segura', $precio)");
         }
     } elseif ($_POST['accion'] === 'actualizar_sabor') {
@@ -56,7 +64,7 @@ $resultado_sabores = $conexion->query($sql_sabores);
     <header class="barra-superior">
         <h1 class="marca">🥟 GESTIÓN DE SORRENTINOS</h1>
         <div class="usuario-menu">
-            <span class="usuario-texto">👤 (Admin) ▾</span>
+            <span class="usuario-texto">👤 (<?php echo htmlspecialchars($_SESSION['usuario']); ?>) ▾</span>
             <div class="usuario-dropdown">
                 <a href="logout.php">Cerrar sesión</a>
             </div>

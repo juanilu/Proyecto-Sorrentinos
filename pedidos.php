@@ -1,15 +1,23 @@
 <?php
+session_start();
+
+// Validar que el usuario haya iniciado sesión; si no, redirigir al login
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'conexion.php';
 
-// Obtener la lista de clientes
+// Obtener la lista de clientes[cite: 10]
 $sql_clientes = "SELECT id_cliente, nombre, telefono FROM cliente ORDER BY nombre ASC";
 $resultado_clientes = $conexion->query($sql_clientes);
 
-// Obtener las tandas activas
+// Obtener las tandas activas[cite: 10]
 $sql_tandas = "SELECT id_prod, nombre, fecha FROM produccion WHERE finalizada = 0 ORDER BY fecha ASC";
 $resultado_tandas = $conexion->query($sql_tandas);
 
-// Obtener los sabores del catálogo
+// Obtener los sabores del catálogo[cite: 10]
 $sql_sabores = "SELECT id_sabor, nombre, precio FROM sabor ORDER BY nombre ASC";
 $resultado_sabores = $conexion->query($sql_sabores);
 ?>
@@ -30,7 +38,7 @@ $resultado_sabores = $conexion->query($sql_sabores);
         <h1 class="marca">🥟 GESTIÓN DE SORRENTINOS</h1>
         
         <div class="usuario-menu">
-            <span class="usuario-texto">👤 (Admin) ▾</span>
+            <span class="usuario-texto">👤 (<?php echo htmlspecialchars($_SESSION['usuario']); ?>) ▾</span>
             <div class="usuario-dropdown">
                 <a href="logout.php">Cerrar sesión</a>
             </div>
@@ -47,7 +55,7 @@ $resultado_sabores = $conexion->query($sql_sabores);
             <h2>Registrar Pedido</h2>
         </div>
 
-        <!-- Formulario apuntando correctamente a guardar_pedido.php -->
+        <!-- Formulario apuntando correctamente a guardar_pedido.php[cite: 10] -->
         <form action="guardar_pedido.php" method="POST" id="formPedido">
             <div class="grid-registro-pedido">
 

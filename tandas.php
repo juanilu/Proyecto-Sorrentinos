@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Validar que el usuario haya iniciado sesión; si no, redirigir al login
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'conexion.php';
 
 // Procesar el formulario cuando se envía una nueva producción desde el modal
@@ -46,7 +54,7 @@ $resultado_tandas = $conexion->query($sql_tandas);
         <h1 class="marca">🥟 GESTIÓN DE SORRENTINOS</h1>
         
         <div class="usuario-menu">
-            <span class="usuario-texto">👤 (Admin) ▾</span>
+            <span class="usuario-texto">👤 (<?php echo htmlspecialchars($_SESSION['usuario']); ?>) ▾</span>
             <div class="usuario-dropdown">
                 <a href="logout.php">Cerrar sesión</a>
             </div>

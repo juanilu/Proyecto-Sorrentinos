@@ -30,7 +30,7 @@ body {
   font-weight: bold;
 }
 
-/* Menú Desplegable de Usuario (Corregido para no cerrarse al pasar el mouse) */
+/* Menú Desplegable de Usuario */
 .usuario-menu {
     position: relative !important;
     display: inline-block !important;
@@ -92,14 +92,18 @@ body {
   color: #111;
 }
 
-/* Tarjeta de Resumen Operativo (Hacia la derecha) */
+/* Tarjeta de Resumen Operativo (Forzada a ancho completo 100%) */
 .tarjeta-resumen {
-  background-color: #ffffff;
-  border: 1px solid #d8cec2;
-  border-radius: 10px;
-  padding: 22px 25px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  width: 100% !important;
+  max-width: 100% !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d8cec2 !important;
+  border-radius: 10px !important;
+  padding: 22px 25px !important;
+  margin-bottom: 30px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+  display: block !important;
+  box-sizing: border-box !important;
 }
 
 .resumen-cabecera {
@@ -107,6 +111,10 @@ body {
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
+}
+
+.icono-resumen-cabecera {
+  font-size: 1.1em;
 }
 
 .titulo-resumen {
@@ -118,12 +126,12 @@ body {
 
 .resumen-elementos {
   display: flex;
-  gap: 60px; /* Distribuye los elementos hacia la derecha */
+  gap: 60px;
 }
 
 .item-resumen {
   display: flex;
-  align-items: center; /* Textos al lado del icono */
+  align-items: center;
   gap: 15px;
 }
 
@@ -156,9 +164,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  width: 100%;
 }
 
-/* Tarjetas interactivas sin estilo de link tradicional */
+/* Tarjetas interactivas */
 .tarjeta-menu {
   background-color: #ffffff;
   border: 1px solid #d8cec2;
@@ -180,7 +189,7 @@ body {
 
 .tarjeta-contenido-izq {
   display: flex;
-  align-items: center; /* Textos al lado del icono del menú */
+  align-items: center;
   gap: 18px;
 }
 
@@ -217,7 +226,6 @@ body {
   text-decoration: none !important;
 }
 
-/* Indicador visual de interactividad sutil en lugar de links subrayados */
 .flecha-indicadora {
   font-size: 1.5em;
   color: #d8cec2;
@@ -227,7 +235,7 @@ body {
 
 .tarjeta-menu:hover .flecha-indicadora {
   color: #2e7d32;
-  transform: translateX(3px); /* Pequeño movimiento al pasar el cursor */
+  transform: translateX(3px);
 }
 
 /* Responsive para pantallas chicas */
